@@ -1,4 +1,4 @@
-import pytest
+
 from car import Car
 
 
@@ -19,7 +19,7 @@ def test_accelerate_fuel_zero():
     assert c1.fuelLevel == 0
 
 
-def test_accelerate_fuel_zero_speed():
+def test_accelerate_fuel_speed_zero():
     c1 = Car(50, 100, 30)
     c1.accelerate(40)
     assert c1.currentSpeed == 0
