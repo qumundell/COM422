@@ -11,8 +11,14 @@ def load_enclosures_stub(self):
 def check_suitability_stub(self, dog):
     return True
 
+
+def remove_dog_stub(self, name):
+    self.enclosures[0].remove_occupant(name)
+
+
 def add_occupant_stub(self, dog):
     self.occupants.append(dog)
+
 
 def test_book_dog(monkeypatch):
     # Create a kennel company
@@ -29,11 +35,18 @@ def test_book_dog(monkeypatch):
     # Check that the overall number of spaces left in the kennels is correct after the 2 bookings
     assert k_comp.spaces_left() == 0
 
-def test_remove_dog():
+
+def test_remove_dog(monkeypatch):
     # Create a kennel company
-    pass
+    monkeypatch.setattr(Kennel_Company, 'load_enclosures', load_enclosures_stub)
+    monkeypatch.setattr(Enclosure, "check_suitability", check_suitability_stub)
+    monkeypatch.setattr(Enclosure, "add_occupant", add_occupant_stub)
+    monkeypatch.setattr(Kennel_Company, 'remove_dog', remove_dog_stub)
+
+    k_comp = Kennel_Company()
     # The kennel company will need to have at least 1 dog staying with it - facilitate this
-
+    k_comp.book_dog(Dog("Paul", "Poul", 13, "Daschund", "Big dog"))
     # Remove the dog
-
+    k_comp.remove_dog("Paul")
     # Check that the overall number of spaces left is correct after the removal
+    assert k_comp.spaces_left() == 0
